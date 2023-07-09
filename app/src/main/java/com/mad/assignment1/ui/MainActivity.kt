@@ -2,6 +2,7 @@ package com.mad.assignment1.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.mad.assignment1.R
 import com.mad.assignment1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,14 +13,14 @@ class MainActivity : AppCompatActivity() {
        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.counterTextView.text = counter.toString()
+        binding.counterTextView.text = resources.getString(R.string.click_counter,counter)
     }
 
     override fun onResume() {
         super.onResume()
         binding.clickMeButton.setOnClickListener{
             counter++
-            binding.counterTextView.text = counter.toString()
+            binding.counterTextView.text = resources.getString(R.string.click_counter,counter)
         }
     }
 

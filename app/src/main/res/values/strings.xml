@@ -2,4 +2,5 @@
     <string name="app_name">MadAssignment1</string>
     <string name="counter">Counter</string>
     <string name="click_me">Click Me</string>
+    <string name="click_counter">Click Counter %1$d</string>
 </resources>
