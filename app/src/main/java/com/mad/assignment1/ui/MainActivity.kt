@@ -18,16 +18,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        counter = 0
+        binding.counterTextView.text =resources.getString(R.string.click_counter,counter)
         binding.clickMeButton.setOnClickListener{
             counter++
             binding.counterTextView.text = resources.getString(R.string.click_counter,counter)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        counter = 0
-        binding.counterTextView.text = counter.toString()
     }
 
 }
