@@ -8,26 +8,26 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,15 +39,15 @@ import kotlin.random.Random
 private val userGenerator = generateSequence {
     User(
         userId = Random.nextLong(10000000,99999999),
-        userName = generateAlphaNumericString(),
-        fullName = generateAlphabeticString(),
-        email = getEmailString() + "@gmail.com"
+        userName = generateAlphaNumericString(6),
+        fullName = generateAlphabeticString(1,20),
+        email = getEmailString()
     )
 }
 
-val users = userGenerator.take(100)
+val users = userGenerator.take(5)
 
-class UserListActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,20 +60,18 @@ class UserListActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(users: List<User>) {
-    Scaffold(topBar = { AppBar() }) { it ->
-        Surface(modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 70.dp)) {
+    Scaffold(topBar = { AppBar() }, modifier = Modifier
+        .fillMaxSize()
+        ) {
             UserListItems(users)
         }
-    }
 }
 
 @Composable
 fun AppBar() {
     TopAppBar(
         title = {
-            Text(text = "Users",
+            Text(text = "User Directory",
             fontFamily = FontFamily.SansSerif)
         }, colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = Color.Blue,
@@ -85,7 +83,7 @@ fun AppBar() {
 @Composable
 fun UserListItems(userList: List<User>){
     val context = LocalContext.current
-    LazyColumn {
+    LazyColumn(modifier = Modifier.padding(top = 70.dp)) {
         itemsIndexed(userList){ userIndex, user ->
             Column(
                 modifier = Modifier
@@ -115,23 +113,23 @@ fun UserListItems(userList: List<User>){
 @Composable
 fun UserListItemsContent(user: User, userIndex: Int){
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ){
-        UserItemContent(user)
+        UserItemContent(user,
+            Modifier
+                .weight(1f)
+                .padding(5.dp))
         UserItemNumber(userIndex)
     }
 
 }
 
 @Composable
-fun UserItemContent(user: User) {
+fun UserItemContent(user: User, modifier: Modifier) {
     Column(
-          modifier = Modifier
-              .padding(5.dp)
-        ){
+          modifier = modifier)
+        {
             Text(text = "UserId: ${user.userId}")
             Text(text = "Username: ${user.userName}")
         }
@@ -139,8 +137,20 @@ fun UserItemContent(user: User) {
 }
 
 @Composable
-fun UserItemNumber(userIndex: Int){
-   Text(modifier = Modifier
+fun UserItemNumber(userIndex: Int) {
+    Column() {
+        Box(modifier = Modifier
+            .size(45.dp)
+            .clip(CircleShape)
+            .border(BorderStroke(2.dp, Color.Black), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "${userIndex + 1}")
+        }
+    }
+
+
+   /*Text(modifier = Modifier
        .padding(16.dp)
        .drawBehind {
            drawCircle(
@@ -149,42 +159,33 @@ fun UserItemNumber(userIndex: Int){
                style = Stroke(2.dp.toPx())
            )
        },
-       text = "${userIndex + 1}")
+       text = "${userIndex + 1}")*/
 }
 
-fun generateAlphaNumericString(): String {
-    var randomAlphaNumericString = ""
-    val alphaNumericString =
-        ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz")
-    for (i in 0..5) {
-        val index = (alphaNumericString.length * Math.random()).toInt()
-        randomAlphaNumericString += alphaNumericString[index]
-    }
-    return randomAlphaNumericString
+fun generateAlphaNumericString(length: Int): String {
+    val alphaNumericString = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    return (1..length).map {
+        alphaNumericString[Random.nextInt(alphaNumericString.size)]
+    }.joinToString("")
 }
 
-fun generateAlphabeticString(): String {
-    var randomAlphabeticString = ""
-    val alphabeticString = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz")
-    for (i in 0..19) {
-        val index = (alphabeticString.length * Math.random()).toInt()
-        randomAlphabeticString += alphabeticString[index]
-    }
-    return randomAlphabeticString
+fun generateAlphabeticString(minLength: Int, maxLength: Int): String {
+    val alphabeticString = ('a'..'z') + ('A'..'Z')
+    val length = Random.nextInt(minLength, maxLength + 1)
+    return (1..length)
+        .map {
+            alphabeticString[Random.nextInt(alphabeticString.size)]
+        }.joinToString("")
+
 }
 
-fun getEmailString(): String? {
-    val emailCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvxyz"
-    var email = ""
-    while (email.length < 12) {
-        val index = (Math.random() * emailCHARS.length).toInt()
-        email += emailCHARS[index]
-    }
-    return email
+fun getEmailString(): String {
+    val username = generateAlphaNumericString(8)
+    return "$username@gmail.com"
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun MainScreenPreview() {
     MainScreen(users.toList())
 }

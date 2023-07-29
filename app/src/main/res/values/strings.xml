@@ -4,4 +4,5 @@
     <string name="click_me">Click Me</string>
     <string name="click_counter">Click Counter %1$d</string>
     <string name="title_activity_user_list">UserListActivity</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
