@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.mad.assignment3.data.AppDataStore
 import com.mad.assignment3.data.AppDatabase
-import com.mad.assignment3.ui.User
 import com.mad.assignment3.ui.UserGenerator
 import com.mad.assignment3.ui.repository.UserRepository
 import dagger.Module
