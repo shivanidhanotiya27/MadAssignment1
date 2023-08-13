@@ -14,9 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -39,19 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import coil.compose.SubcomposeAsyncImage
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.mad.assignment4.network.retrofit.eventWrapper.ResponseState
 import com.mad.assignment4.network.retrofit.model.post.PostItem
 import com.mad.assignment4.network.retrofit.model.user.Address
@@ -282,7 +275,6 @@ fun UserSubscriptionPlan(modifier: Modifier, userSubscription: Subscription) {
 
     }
 }
-
 @Composable
 fun OnFailureScreen(modifier: Modifier, errorMsg: String) {
    Column(modifier = modifier,
