@@ -2,8 +2,11 @@ package com.mad.assignmentFive.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.mad.assignmentFive.network.model.post.Post
 import com.mad.assignmentFive.network.model.user.User
+import com.mad.assignmentFive.network.model.userPost.UPost
 import com.mad.assignmentFive.network.retrofit.eventWrapper.ResponseState
 import com.mad.assignmentFive.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +23,14 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
 
     val posts = userRepository.getPosts().cachedIn(viewModelScope)
+    fun getUserPosts(userId: Int): Flow<PagingData<Post>> {
+        return userRepository.getUserPosts(userId).cachedIn(viewModelScope)
+    }
+
 
     val localUserStatus = userRepository.getUserStatus()
 
     private val _userState = MutableStateFlow<ResponseState<User>>(ResponseState.Initial)
-
     val userState: StateFlow<ResponseState<User>>
         get() = _userState
 
@@ -48,6 +54,38 @@ class UserViewModel @Inject constructor(
 
     fun getUserFromDB(): Flow<User> {
         return userRepository.getUserFromDB()
+    }
+
+    private val _postState = MutableStateFlow<ResponseState<UPost>>(ResponseState.Initial)
+    val postState: StateFlow<ResponseState<UPost>>
+        get() = _postState
+
+    fun getPostByPostId(postId: Int) = viewModelScope.launch {
+        _postState.value = ResponseState.Loading
+
+        userRepository.getPostByPostId(postId = postId,
+            onSuccess = { post ->
+                _postState.value = ResponseState.Success(post)
+            },
+            onFailure = { errorMsg ->
+                _postState.value = ResponseState.Failure(errorMessage = errorMsg)
+            }
+        )
+    }
+
+    private val _deletePostState = MutableStateFlow<ResponseState<Boolean>>(ResponseState.Initial)
+    val deletePostState: StateFlow<ResponseState<Boolean>>
+        get() = _deletePostState
+
+    fun deletePost(postId: Int, userId: Int) = viewModelScope.launch {
+        _deletePostState.value = ResponseState.Loading
+        userRepository.deletePost(postId, userId,
+            onSuccess = { status ->
+                _deletePostState.value = ResponseState.Success(status)
+            }, onFailure = { errorMsg ->
+                _deletePostState.value = ResponseState.Failure(errorMessage = errorMsg)
+            }
+        )
     }
 
 }

@@ -186,7 +186,7 @@ fun UserProfileScreen(modifier: Modifier, user: User) {
 
 @Composable
 fun UserProfileInfo(modifier: Modifier, user: User) {
-    Row() {
+    Row {
         SubcomposeAsyncImage(
             model = user.avatar,
             loading = {
