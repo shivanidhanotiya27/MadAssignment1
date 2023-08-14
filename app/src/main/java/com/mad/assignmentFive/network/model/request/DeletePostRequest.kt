@@ -3,7 +3,7 @@ package com.mad.assignmentFive.network.model.request
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
-import retrofit2.http.Body
+
 
 @JsonClass(generateAdapter = true)
 data class DeletePostRequest(

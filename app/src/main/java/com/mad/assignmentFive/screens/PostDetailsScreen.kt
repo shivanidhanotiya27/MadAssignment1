@@ -163,21 +163,27 @@ fun ProfileDetailsUI(modifier: Modifier, data: UPost, onImageUrlClick: (urlLink:
         )
 
         ProfileDetailsInfo(modifier, data)
+        
+        Spacer(modifier = modifier.size(10.dp))
 
         ProfileOtherDetails(
             modifier = modifier,
-            infoType = "Created By",
-            infoValue = data.user.fullName
+            infoType = "Created By:",
+            infoValue = data.user.fullName,
+            color = Color.Black
         )
         ProfileOtherDetails(
             modifier = modifier,
-            infoType = "Created At",
-            infoValue = data.createdAt
+            infoType = "Created At:",
+            infoValue = data.createdAt,
+            color = Color.Black
         )
         ProfileOtherDetails(
-            modifier = modifier.clickable { onImageUrlClick(data.url) },
+            modifier = modifier.padding(bottom = 10.dp)
+                .clickable { onImageUrlClick(data.url) },
             infoType = "Url:",
-            infoValue = data.url
+            infoValue = data.url,
+            color = Color.Blue
         )
     }
 }
@@ -238,24 +244,27 @@ fun ProfileLikesAndComments(modifier: Modifier, infoType: String, infoValue: Int
 }
 
 @Composable
-fun ProfileOtherDetails(modifier: Modifier, infoType: String, infoValue: String) {
+fun ProfileOtherDetails(modifier: Modifier, infoType: String, infoValue: String, color: Color) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = infoType,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
-            modifier = modifier
+            modifier = modifier.padding(start = 10.dp),
         )
+
+        Spacer(modifier = modifier.size(5.dp))
+
         Text(
             text = infoValue,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-            modifier = modifier
+            modifier = modifier,
+            color = color
         )
     }
-
 }

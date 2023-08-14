@@ -36,7 +36,8 @@ interface ApiEndPointService {
     ): Response<PostModel>
 
 
-    @HTTP(method = "DELETE", path = "posts/{postId}", hasBody = true)
+//    @HTTP(method = "DELETE", path = "posts/{postId}", hasBody = true)
+    @DELETE("posts/{postId}")
     suspend fun deletePost(
         @Path("postId") postId: Int,
         @Body userId: DeletePostRequest): Response<UserPostModel>
