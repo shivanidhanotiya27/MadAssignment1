@@ -49,7 +49,7 @@ fun HomeScreen(userViewModel: UserViewModel) {
         TopAppBar(
             title = { Text(text = "Home") },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = Color.Blue,
+                containerColor = Color.Magenta,
                 titleContentColor = Color.White
             )
         )

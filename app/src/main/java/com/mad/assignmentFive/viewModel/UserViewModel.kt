@@ -72,20 +72,4 @@ class UserViewModel @Inject constructor(
             }
         )
     }
-
-    private val _deletePostState = MutableStateFlow<ResponseState<Boolean>>(ResponseState.Initial)
-    val deletePostState: StateFlow<ResponseState<Boolean>>
-        get() = _deletePostState
-
-    fun deletePost(postId: Int, userId: Int) = viewModelScope.launch {
-        _deletePostState.value = ResponseState.Loading
-        userRepository.deletePost(postId, userId,
-            onSuccess = { status ->
-                _deletePostState.value = ResponseState.Success(status)
-            }, onFailure = { errorMsg ->
-                _deletePostState.value = ResponseState.Failure(errorMessage = errorMsg)
-            }
-        )
-    }
-
 }

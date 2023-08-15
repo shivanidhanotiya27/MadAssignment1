@@ -75,7 +75,7 @@ fun LoginScreen(
             onClick = onLoginButtonClick,
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
-                containerColor = Color.Blue
+                containerColor = Color.Magenta
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,16 +90,6 @@ fun LoginScreen(
         }
     }
 }
-
-/*
-@Composable
-fun LoadingIndicator(modifier: Modifier) {
-    Column(modifier = modifier) {
-        CircularProgressIndicator(color = Color.Black, modifier = modifier.align(Alignment.CenterHorizontally)
-            .padding(20.dp))
-    }
-}
-*/
 
 @Composable
 fun OnFailureScreen(modifier: Modifier, errorMsg: String) {

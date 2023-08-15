@@ -2,9 +2,9 @@ package com.mad.assignmentFive.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,8 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mad.assignmentFive.screens.HomeScreen
 import com.mad.assignmentFive.screens.LoginScreen
-import com.mad.assignmentFive.screens.PostDetailsScreen
 import com.mad.assignmentFive.screens.ProfileScreen
+import com.mad.assignmentFive.screens.postDetails.PostDetailsScreen
+import com.mad.assignmentFive.screens.postDetails.PostDetailsViewModel
 import com.mad.assignmentFive.viewModel.UserViewModel
 
 @Composable
@@ -61,8 +62,9 @@ fun AppNavigation(
         ) {
             bottomBarState.value = false
             val postId = it.arguments?.getInt("postId") ?: return@composable
-            PostDetailsScreen(postId, navController, userViewModel){ userId ->
-                userViewModel.deletePost(postId, userId)
+            val postDetailsViewModel = hiltViewModel<PostDetailsViewModel>()
+            PostDetailsScreen(postId, navController, userViewModel, postDetailsViewModel){ userId ->
+                postDetailsViewModel.deletePost(postId, userId)
             }
         }
     }

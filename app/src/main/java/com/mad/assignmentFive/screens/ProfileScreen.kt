@@ -49,7 +49,7 @@ fun ProfileScreen(user: User, userViewModel: UserViewModel, onPostClick: (postId
             TopAppBar(
                 title = { Text(text = user.username) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Blue,
+                    containerColor = Color.Magenta,
                     titleContentColor = Color.White
                 )
             )
@@ -150,6 +150,7 @@ fun UserProfileSubInfo(type: String, userInfo: String) {
         )
     }
 }
+
 @Composable
 fun UserPosts(
     modifier: Modifier,
@@ -164,9 +165,9 @@ fun UserPosts(
         items(count = posts.itemCount) { index ->
             UserPostItem(
                 modifier = modifier
-                    .size(140.dp, 150.dp)
                     .fillMaxWidth()
-                    .padding(5.dp, 5.dp),
+                    .size(160.dp, 165.dp)
+                    .padding(2.dp, 2.dp),
                 post = posts[index]!!,
             ) {
                 posts[index]?.let { it1 -> onPostClick(it1) }
@@ -200,8 +201,8 @@ fun UserPostItem(
             contentScale = ContentScale.FillHeight,
             modifier = modifier
                 .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
                 .clip(RoundedCornerShape(8.dp))
+                .align(Alignment.CenterHorizontally)
         )
     }
 }

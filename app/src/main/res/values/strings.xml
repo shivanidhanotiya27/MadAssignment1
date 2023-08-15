@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">MadAssignment1</string>
+    <string name="app_name">MAD</string>
     <string name="counter">Counter</string>
     <string name="click_me">Click Me</string>
     <string name="click_counter">Click Counter %1$d</string>
     <string name="title_activity_user_list">UserListActivity</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">MAD</string>
 </resources>

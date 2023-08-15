@@ -44,10 +44,10 @@ fun MainScreen() {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val userViewModel: UserViewModel = hiltViewModel()
-    val bottomBarState= remember { mutableStateOf(true) }
+    val bottomBarState= remember { mutableStateOf(false) }
 
     LaunchedEffect(currentBackStackEntry) {
-        bottomBarState.value = currentBackStackEntry?.destination?.route != AppRoute.PostDetailsScreen.route
+        bottomBarState.value = (currentBackStackEntry?.destination?.route != (AppRoute.PostDetailsScreen.route))
     }
 
     Scaffold(bottomBar = {

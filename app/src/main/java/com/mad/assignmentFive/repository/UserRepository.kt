@@ -75,12 +75,12 @@ class UserRepository @Inject constructor(
 
     suspend fun deletePost(
         postId: Int, userId: Int,
-        onSuccess: (Boolean) -> Unit,
+        onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
        val response = apiEndPointService.deletePost(postId, requestForDeletePost(userId))
         if(response.isSuccessful) {
-            response.body()?.let { onSuccess(it.status) }
+             onSuccess()
         } else {
             val errorMsg = response.errorBody()?.string()
             onFailure(errorMsg.toString())

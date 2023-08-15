@@ -1,4 +1,4 @@
-package com.mad.assignmentFive.screens
+package com.mad.assignmentFive.screens.postDetails
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -26,29 +27,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.SubcomposeAsyncImage
 import com.mad.assignmentFive.network.model.userPost.UPost
 import com.mad.assignmentFive.network.retrofit.eventWrapper.ResponseState
+import com.mad.assignmentFive.screens.LoadingIndicator
+import com.mad.assignmentFive.screens.OnFailureScreen
 import com.mad.assignmentFive.viewModel.UserViewModel
 
 @Composable
 fun PostDetailsScreen(
     postId: Int,
-    navController: NavHostController,
+    navController: NavController,
     userViewModel: UserViewModel,
+    postDetailsViewModel: PostDetailsViewModel,
     onDeleteIconClick: (userId: Int) -> Unit
 ) {
     val profileDetails by remember { userViewModel.postState }.collectAsState()
     val uriHandle = LocalUriHandler.current
-    val deleteUser by remember { userViewModel.deletePostState }.collectAsState()
-    val user = userViewModel.getUserFromDB().collectAsState(initial = null)
+    val deleteUser by remember { postDetailsViewModel.deletePostState }.collectAsState()
 
     LaunchedEffect(key1 = Unit, block = {
         userViewModel.getPostByPostId(postId)
@@ -77,7 +82,7 @@ fun PostDetailsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Blue,
+                    containerColor = Color.Magenta,
                     titleContentColor = Color.White
                 )
             )
@@ -119,9 +124,9 @@ fun PostDetailsScreen(
                 }
 
                 is ResponseState.Success -> {
-                    deleteUser.data?.let { status ->
-                        if (status) {
-                            navController.popBackStack()
+                    deleteUser.data.let {
+                        if(it == true) {
+                         //   navController.popBackStack()
                         }
                     }
                 }
@@ -159,6 +164,7 @@ fun ProfileDetailsUI(modifier: Modifier, data: UPost, onImageUrlClick: (urlLink:
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .align(Alignment.CenterHorizontally)
+                .clip(RoundedCornerShape(2.dp))
                 .weight(1f)
         )
 

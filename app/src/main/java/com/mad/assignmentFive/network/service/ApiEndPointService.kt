@@ -1,14 +1,11 @@
 package com.mad.assignmentFive.network.service
 
-import com.mad.assignmentFive.network.model.post.Post
 import com.mad.assignmentFive.network.model.post.PostModel
 import com.mad.assignmentFive.network.model.request.DeletePostRequest
 import com.mad.assignmentFive.network.model.user.UserModel
 import com.mad.assignmentFive.network.model.userPost.UserPostModel
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Path
@@ -36,9 +33,9 @@ interface ApiEndPointService {
     ): Response<PostModel>
 
 
-//    @HTTP(method = "DELETE", path = "posts/{postId}", hasBody = true)
-    @DELETE("posts/{postId}")
+    @HTTP(method = "DELETE", path = "posts/{postId}", hasBody = true)
+//    @DELETE("posts/{postId}")
     suspend fun deletePost(
         @Path("postId") postId: Int,
-        @Body userId: DeletePostRequest): Response<UserPostModel>
+        @Body deletePostRequest: DeletePostRequest): Response<PostModel>
 }
